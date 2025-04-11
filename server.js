@@ -7,6 +7,7 @@ const { MongoClient } = require('mongodb');
 const login = require('./controllers/login');
 const transaction = require('./controllers/transaction');
 const main = require('./controllers/main');
+const addUser = require('./controllers/addUser');
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
@@ -33,6 +34,15 @@ app.put('/transaction', (req, res) => {
     console.log("PUT request sent for /transaction with body: ", req.body);
     transaction.handleTransaction(req, res, database);
 });
+
+app.post('/adduser', (req, res) => {
+    console.log("POST request sent for /adduser with body: ", req.body);
+    if(req.body.authorized){
+        addUser.addUser(req, res, database, crypto);
+    } else {
+        res.status(401).json({ message: 'Unauthorized' });
+    }
+})
 
 app.listen(port, ()=>{
     console.log('App is running on port:', port);
