@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 app.post('/login', (req, res) => {
     console.log("POST request sent for /login with body: ", req.body);
-    login.handleLogin(req, res, database);
+    login.handleLogin(req, res, database, crypto);
 });
 
 app.put('/transaction', (req, res) => {

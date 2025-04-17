@@ -8,12 +8,12 @@ const findUser = async (username, password, database) => {
     }
 }
 
-const handleLogin = async (req, res, database) => {
+const handleLogin = async (req, res, database, crypto) => {
     const { username, password } = req.body;
     if(!username || !password){
         return res.status(400).json({user: null});
     } else {
-        let user = await findUser(username, password, database);
+        let user = await findUser(username, crypto.createHash('md5').update(password).digest('hex'), database);
         if(user){
             res.status(200).json({user: user.username});
         } else {
