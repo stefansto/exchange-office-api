@@ -28,12 +28,22 @@ async function findCurrencies(database) {
     }
 }
 
-async function handleMain(res, database) {
+async function handleMainCurrency(res, database) {
     let currencies = await findCurrencies(database);
-    let transactions = await findTransactions(database);
-    if(currencies && transactions){
+    if(currencies){
         let dataToSendBack = {
-            currencies: currencies,
+            currencies: currencies
+        }
+        res.status(200).json({res: dataToSendBack});
+    } else {
+        res.status(503).json({res: null});
+    }
+}
+
+async function handleMainTransaction(res, database) {
+    let transactions = await findTransactions(database);
+    if(transactions){
+        let dataToSendBack = {
             transactions: transactions
         }
         res.status(200).json({res: dataToSendBack});
@@ -43,5 +53,6 @@ async function handleMain(res, database) {
 }
 
 module.exports = {
-    handleMain:handleMain
+    handleMainCurrency:handleMainCurrency,
+    handleMainTransaction:handleMainTransaction
 }

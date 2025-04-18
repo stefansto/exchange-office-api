@@ -20,9 +20,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-    console.log("GET request sent for /");
-    main.handleMain(res, database);
+app.get('/currency', (req, res) => {
+    console.log("GET request sent for /currency");
+    main.handleMainCurrency(res, database);
+});
+
+app.get('/transaction', (req, res) => {
+    console.log("GET request sent for /transaction");
+    main.handleMainTransaction(res, database);
 });
 
 app.post('/login', (req, res) => {
