@@ -42,13 +42,9 @@ const handlePutTransaction = async (req, res, database) => {
         }
 
         if(req.body.currencyIn){
-            let rate = 1;
-            if(req.body.rate){
-                rate = req.body.rate;
-            }
             await currencyColl.findOneAndUpdate(
                 {name: req.body.currencyIn },
-                {$inc: { ammount: (req.body.currencyInAmmount * rate) }}
+                {$inc: { ammount: req.body.currencyInAmmount }}
             );
             insertData.currencyIn = req.body.currencyIn;
             insertData.currencyInAmmount = req.body.currencyInAmmount;
