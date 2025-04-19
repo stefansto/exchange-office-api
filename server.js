@@ -5,8 +5,9 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
 const login = require('./controllers/login');
-const transaction = require('./controllers/transaction');
-const main = require('./controllers/main');
+const transactionPut = require('./controllers/transactionPut');
+const transactionGet = require('./controllers/transactionGet');
+const currenciesGet = require('./controllers/currenciesGet');
 const addUser = require('./controllers/addUser');
 
 const uri = 'mongodb://localhost:27017';
@@ -22,12 +23,12 @@ app.use(cors());
 
 app.get('/currency', (req, res) => {
     console.log("GET request sent for /currency");
-    main.handleMainCurrency(res, database);
+    currenciesGet.handleGetCurrencies(res, database);
 });
 
 app.get('/transaction', (req, res) => {
     console.log("GET request sent for /transaction");
-    main.handleMainTransaction(res, database);
+    transactionGet.handleGetTransaction(res, database);
 });
 
 app.post('/login', (req, res) => {
@@ -37,7 +38,7 @@ app.post('/login', (req, res) => {
 
 app.put('/transaction', (req, res) => {
     console.log("PUT request sent for /transaction with body: ", req.body);
-    transaction.handleTransaction(req, res, database);
+    transactionPut.handlePutTransaction(req, res, database);
 });
 
 app.post('/adduser', (req, res) => {
