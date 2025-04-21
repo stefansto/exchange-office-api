@@ -9,6 +9,7 @@ const transactionPut = require('./controllers/transactionPut');
 const transactionGet = require('./controllers/transactionGet');
 const currenciesGet = require('./controllers/currenciesGet');
 const addUser = require('./controllers/addUser');
+const transactionFilter = require('./controllers/transactionFilter');
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
@@ -49,6 +50,11 @@ app.post('/adduser', (req, res) => {
         res.status(401).json({ message: 'Unauthorized' });
     }
 })
+
+app.post('/filter', (req, res) => {
+    console.log("POST request sent for /filter with body: ", req.body);
+    transactionFilter.handleFilterTransactions(req, res, database);
+});
 
 app.listen(port, ()=>{
     console.log('App is running on port:', port);
