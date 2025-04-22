@@ -3,9 +3,12 @@ const findFilterTransactions = async (checkedValues, database) => {
         let transactionArray = [];
         const transactions = database.collection('transactions');
 
-        let name = 'currencyIn';
-        
-        const query = { [name]: { $in: checkedValues}};
+        let query = {$and:[]};
+        for (const element in checkedValues) {
+            if(checkedValues[element].length){
+                query.$and.push({ [element]: { $in: checkedValues[element]} });
+            }
+        }
         const filteredTransactions = await transactions.find(query);
         for await (const oneTransaction of filteredTransactions){
             transactionArray.push(oneTransaction);
