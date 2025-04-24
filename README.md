@@ -11,6 +11,7 @@ Backend meant to be used for my exchange-office-app
 - /currency route for GET requests that handles fetching data from the currencies collection
 - /transaction route for PUT requests that handles inserting data in transaction and updating data in currencies collection
 - /adduser route for POST requests that handles inserting a new user into the users collection
+- /filter route for POST request that handles fetching certain transaction data from the database based on the data recieved from the client
 
 ## Frontend repository
 
