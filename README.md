@@ -12,13 +12,19 @@ Backend meant to be used for my exchange-office-app
 - /transaction route for PUT requests that handles inserting data in transaction and updating data in currencies collection
 - /adduser route for POST requests that handles inserting a new user into the users collection
 - /filter route for POST request that handles fetching certain transaction data from the database based on the data recieved from the client
+- Database initialization from the terminal
+- Inserting a new user from the terminal
 
 ## Frontend repository
 
 - https://github.com/stefansto/exchange-office-app
 
-## Notes
+## Usage
 
-- To start the API run 'npm start'
-- Change the 'uri' const in 'server.js' to you database url
-- Specify on which port the API should run in the 'port' const in 'server.js'
+- Clone the repository and run `npm install`
+- Make a `.env` file (example file of it is provided) in root containing variables:
+    - `MONGO_URL` for your MongoDB url
+    - `API_PORT` to specify on which port should the API run
+- Have your MongoDB running and initialize data in it by running `npm run database` in the terminal, this will prompt you to add your first user and setup currency data
+- To add a new user in the database run `npm run user` in the terminal
+- To start the API run `npm start`
