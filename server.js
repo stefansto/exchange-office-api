@@ -1,61 +1,32 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const crypto = require('crypto');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
 
-const login = require('./controllers/login');
-const transactionPut = require('./controllers/transactionPut');
-const transactionGet = require('./controllers/transactionGet');
-const currenciesGet = require('./controllers/currenciesGet');
-const addUser = require('./controllers/addUser');
-const transactionFilter = require('./controllers/transactionFilter');
+const { handleLogin } = require('./controllers/login');
+const { handlePutTransaction } = require('./controllers/transactionPut');
+const { handleGetTransaction } = require('./controllers/transactionGet');
+const { handleGetCurrencies } = require('./controllers/currenciesGet');
+const { handleAddUser } = require('./controllers/addUser');
+const { handleFilterTransactions } = require('./controllers/transactionFilter');
 
-const uri = 'mongodb://localhost:27017';
-const client = new MongoClient(uri);
-const database = client.db('exchange');
-
-const port = 3000;
+const { database } = require('./database/connection');
 
 const app = express();
-
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/currency', (req, res) => {
-    console.log("GET request sent for /currency");
-    currenciesGet.handleGetCurrencies(res, database);
-});
+app.get('/currency', (_req, res) => handleGetCurrencies(res, database));
 
-app.get('/transaction', (req, res) => {
-    console.log("GET request sent for /transaction");
-    transactionGet.handleGetTransaction(res, database);
-});
+app.get('/transaction', (_req, res) => handleGetTransaction(res, database));
 
-app.post('/login', (req, res) => {
-    console.log("POST request sent for /login with body: ", req.body);
-    login.handleLogin(req, res, database, crypto);
-});
+app.post('/login', (req, res) => handleLogin(req, res, database));
 
-app.put('/transaction', (req, res) => {
-    console.log("PUT request sent for /transaction with body: ", req.body);
-    transactionPut.handlePutTransaction(req, res, database);
-});
+app.put('/transaction', (req, res) => handlePutTransaction(req, res, database));
 
-app.post('/adduser', (req, res) => {
-    console.log("POST request sent for /adduser with body: ", req.body);
-    if(req.body.authorized){
-        addUser.addUser(req, res, database, crypto);
-    } else {
-        res.status(401).json({ message: 'Unauthorized' });
-    }
-})
+app.post('/adduser', (req, res) => handleAddUser(req, res, database));
 
-app.post('/filter', (req, res) => {
-    console.log("POST request sent for /filter with body: ", req.body);
-    transactionFilter.handleFilterTransactions(req, res, database);
-});
+app.post('/filter', (req, res) => handleFilterTransactions(req, res, database));
 
-app.listen(port, ()=>{
-    console.log('App is running on port:', port);
+app.listen(parseInt(process.env.API_PORT), () => {
+    console.log('App is running on port:', parseInt(process.env.API_PORT));
 });

@@ -21,6 +21,7 @@ const findFilterTransactions = async (checkedValues, database) => {
 }
 
 const handleFilterTransactions = async (req, res, database) => {
+    console.log("POST request sent for /filter with body: ", req.body);
     let transactions = await findFilterTransactions(req.body.checked, database);
     if(transactions){
         let dataToSendBack = {

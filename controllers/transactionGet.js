@@ -14,6 +14,7 @@ const findTransactions = async (database) => {
 }
 
 const handleGetTransaction = async (res, database) => {
+    console.log("GET request sent for /transaction");
     let transactions = await findTransactions(database);
     if(transactions){
         let dataToSendBack = {

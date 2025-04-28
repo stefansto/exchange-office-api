@@ -14,6 +14,7 @@ const findCurrencies = async (database) => {
 }
 
 const handleGetCurrencies = async (res, database) => {
+    console.log("GET request sent for /currency");
     let currencies = await findCurrencies(database);
     if(currencies){
         let dataToSendBack = {

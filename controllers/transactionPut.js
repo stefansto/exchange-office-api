@@ -12,6 +12,7 @@ const findCurrency = async (database, currencyName) => {
 }
 
 const handlePutTransaction = async (req, res, database) => {
+    console.log("PUT request sent for /transaction with body: ", req.body);
     
     let insertData = {
         type: req.body.type,
