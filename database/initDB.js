@@ -1,5 +1,6 @@
 const { database, client } = require('./connection');
 const readline = require('node:readline');
+const { hashPassword } = require('../utils/passHashing');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -27,10 +28,11 @@ const initDatabase = async() => {
         console.log('Error');
     } else {
         try {
+            const hashedPassword = await hashPassword(password).then(res => {return res});
             const users = database.collection('users');
             const query = {
                 username: username,
-                password: require('crypto').createHash('md5').update(password).digest('hex'),
+                password: hashedPassword,
                 active: true,
                 date: new Date()
             }

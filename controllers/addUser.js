@@ -1,13 +1,14 @@
-const { createHash } = require('crypto');
+const { hashPassword } = require('../utils/passHashing');
 
 const handleAddUser = async (req, res, db) => {
     console.log("POST request sent for /adduser with body: ", req.body);
     if(req.body.authorized){
         try {
+            const hashedPassword = await hashPassword(password).then(res => {return res});
             const users = db.collection('users');
             const query = {
                 username: req.body.username,
-                password: createHash('md5').update(req.body.password).digest('hex'),
+                password: hashedPassword,
                 active: true,
                 date: new Date()
             }
