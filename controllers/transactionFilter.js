@@ -29,7 +29,7 @@ const handleFilterTransactions = async (req, res, database) => {
         }
         res.status(200).json({res: dataToSendBack});
     } else {
-        res.status(503).json({res: null});
+        res.status(503).json({errorMessage: 'Filter service unavailable, try again later!'});
     }
 }
 

@@ -22,7 +22,7 @@ const handleGetTransaction = async (res, database) => {
         }
         res.status(200).json({res: dataToSendBack});
     } else {
-        res.status(503).json({res: null});
+        res.status(503).json({errorMessage: 'Transaction service unavailable, try again later!'});
     }
 }
 

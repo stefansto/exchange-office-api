@@ -15,7 +15,7 @@ const handleLogin = async (req, res, database) => {
     console.log("POST request sent for /login with body: ", req.body);
     const { username, password } = req.body;
     if(!username || !password){
-        return res.status(400).json({user: null});
+        return res.status(401).json({errorMessage: 'Missing credentials!'});
     } else {
         let user = await findUser(username, database);
         if(user){
@@ -24,10 +24,10 @@ const handleLogin = async (req, res, database) => {
                 res.cookie('token', token, { httpOnly: true });
                 res.status(200).json({user: user.username});
             } else {
-                res.status(400).json({user:null});
+                res.status(401).json({errorMessage:'Invalid username or password!'});
             }
         } else {
-            res.status(400).json({user: null});
+            res.status(401).json({errorMessage: 'User does not exist!'});
         }
     }
 }

@@ -22,7 +22,7 @@ const handleGetCurrencies = async (res, database) => {
         }
         res.status(200).json({res: dataToSendBack});
     } else {
-        res.status(503).json({res: null});
+        res.status(503).json({errorMessage: 'Currencies service unavailable, try again later!'});
     }
 }
 

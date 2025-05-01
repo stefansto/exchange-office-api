@@ -32,7 +32,8 @@ const handlePutTransaction = async (req, res, database) => {
         if(req.body.currencyOut){
             let currency = await findCurrency(database, req.body.currencyOut);
             if(await currency.ammount < req.body.currencyOutAmmount){
-                throw 'Not enough ammount';
+                res.status(400).json({errorMessage: 'Requested ammount exceeds the ammount in stock!'});
+                return;
             }
             await currencyColl.findOneAndUpdate(
                 {name: req.body.currencyOut },
@@ -55,7 +56,7 @@ const handlePutTransaction = async (req, res, database) => {
         await res.status(200).json({message:'Success'});
     } catch (error) {
         console.log('Error: ', error);
-        res.status(400).json({message:'Error'});
+        res.status(500).json({errorMessage: 'Database error, try again later!'});
     }
 }
 

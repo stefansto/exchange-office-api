@@ -8,7 +8,7 @@ const cookieJwtAuth = (req, res, next) => {
         next();
     } catch(e) {
         res.clearCookie('token');
-        res.status(404).json({ expiredToken: true });
+        res.status(403).json({ expiredToken: true });
     }
 }
 
