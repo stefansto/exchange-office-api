@@ -19,9 +19,21 @@ const adduser = async () => {
     let username = null;
     let password = null;
 
+    console.log('Inserting a new user');
     username = await askQuestion('Username?');
     password = await askQuestion('Password?');
+    role = await askQuestion('Role? (1-admin/2-user)');
+
     rl.close();
+
+    if(role === '1'){
+        role = 'admin';
+    } else if(role === '2'){
+        role = 'user';
+    } else {
+        console.log('Invalid role!');
+        return;
+    }
 
     if(!username || !password){
         console.log('Input error!');
@@ -33,7 +45,8 @@ const adduser = async () => {
                 username: username,
                 password: hashedPassword,
                 active: true,
-                date: new Date()
+                date: new Date(),
+                role: role
             }
             const result = await users.insertOne(query);
             result.acknowledged ? console.log(`Log in with ${query.username}/${password}`) : console.log('Failed to add user, please try again by running \'npm run user\'')

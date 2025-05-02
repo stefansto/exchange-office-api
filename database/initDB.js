@@ -19,6 +19,7 @@ const initDatabase = async() => {
     let username = null;
     let password = null;
 
+    console.log('Inserting a new admin');
     username = await askQuestion('Username?');
     password = await askQuestion('Password?');
 
@@ -34,7 +35,8 @@ const initDatabase = async() => {
                 username: username,
                 password: hashedPassword,
                 active: true,
-                date: new Date()
+                date: new Date(),
+                role: 'admin'
             }
             const result = await users.insertOne(query);
             result.acknowledged ? console.log(`Log in with ${query.username}/${password}`) : null;
