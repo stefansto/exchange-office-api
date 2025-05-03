@@ -22,7 +22,7 @@ const handleLogin = async (req, res, database) => {
             if(await compareHash(password, user.password)){
                 const token = jwt.sign({username: user.username, id: user._id}, process.env.JWT_SECRET, { expiresIn: '1h' });
                 res.cookie('token', token, { httpOnly: true });
-                res.status(200).json({user: user.username});
+                res.status(200).json({user: user.username, role: user.role});
             } else {
                 res.status(401).json({errorMessage:'Invalid username or password!'});
             }
