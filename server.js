@@ -14,6 +14,7 @@ const { handleChangeUser } = require('./controllers/admin/changeUser');
 const { handleFetchUsers } = require('./controllers/admin/fetchUsers');
 const { handleActivateUser } = require('./controllers/admin/activateUser');
 
+const { adminAuthorization } = require('./middleware/adminAuthorization');
 const { cookieJwtAuth } = require('./middleware/cookieJwtAuth');
 
 const { database } = require('./database/connection');
@@ -32,10 +33,10 @@ app.post('/transactions/filtered', cookieJwtAuth, (req, res) => handleFilterTran
 
 app.put('/transactions/new', cookieJwtAuth, (req, res) => handlePutTransaction(req, res, database));
 
-app.post('/admin/adduser', cookieJwtAuth, (req, res) => handleAddUser(req, res, database));
-app.post('/admin/fetchusers', cookieJwtAuth, (req, res) => handleFetchUsers(req, res, database));
-app.post('/admin/changeuser', cookieJwtAuth, (req, res) => handleChangeUser(req, res, database));
-app.post('/admin/activateuser', cookieJwtAuth, (req, res) => handleActivateUser(req, res, database));
+app.post('/admin/adduser', cookieJwtAuth, adminAuthorization, (req, res) => handleAddUser(req, res, database));
+app.post('/admin/fetchusers', cookieJwtAuth, adminAuthorization, (req, res) => handleFetchUsers(req, res, database));
+app.post('/admin/changeuser', cookieJwtAuth, adminAuthorization, (req, res) => handleChangeUser(req, res, database));
+app.post('/admin/activateuser', cookieJwtAuth, adminAuthorization, (req, res) => handleActivateUser(req, res, database));
 
 app.listen(parseInt(process.env.API_PORT), () => {
     console.log('App is running on port:', parseInt(process.env.API_PORT));
