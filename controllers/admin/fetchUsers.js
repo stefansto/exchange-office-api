@@ -1,5 +1,5 @@
 const handleFetchUsers = async (req, res, db) => {
-    console.log("POST request sent for /admin/fetchusers with body:", req.body);
+    console.log("POST request sent for /admin/fetchusers");
     try {
         let usersArray = [];
         const users = db.collection('users');
