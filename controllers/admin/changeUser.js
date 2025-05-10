@@ -3,12 +3,14 @@ const { hashPassword } = require('../../utils/passHashing');
 const handleChangeUser = async (req, res, db) => {
     console.log("POST request sent for /admin/changeuser with body: ", req.body);
     try {
-        const newHashedPassword = await hashPassword(req.body.newPassword).then((res)=>{return res});
         const users = db.collection('users');
-        const result = await users.updateOne(
-            {username: req.body.username },
-            {$set: { password: newHashedPassword, role: req.body.newRole }}
-        );
+        const filter = {username: req.body.username };
+        const query = {$set: { role: req.body.newRole }};
+        if(req.body.newPassword != ''){
+            const newHashedPassword = await hashPassword(req.body.newPassword).then((res)=>{return res});
+            query.$set.password = newHashedPassword;
+        }
+        const result = await users.updateOne(filter, query);
         if(await result.acknowledged){
             res.status(200).json({ message: 'Success' });
         } else {
